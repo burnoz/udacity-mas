@@ -17,7 +17,7 @@ def create_diagram(title, nodes, edges, node_labels=None, node_types=None, edge_
     if edge_labels is None:
         edge_labels = {}
 
-    plt.figure(figsize=(16, 10))
+    plt.figure(figsize=(16, 11))
     plt.title(title, fontsize=16, fontweight='bold', pad=20)
 
     pos = {}
@@ -31,17 +31,20 @@ def create_diagram(title, nodes, edges, node_labels=None, node_types=None, edge_
     pos["Orchestrator Agent"] = (1 * horizontal_spacing, 0)
 
     # Column 2: Specialized Worker Agents
-    pos["Inventory Agent"] = (2 * horizontal_spacing, 1.25 * vertical_spacing)
+    pos["Inventory Agent"] = (2 * horizontal_spacing, 1.35 * vertical_spacing)
     pos["Quoting Agent"] = (2 * horizontal_spacing, 0)
-    pos["Transaction Agent"] = (2 * horizontal_spacing, -1.25 * vertical_spacing)
+    pos["Transaction Agent"] = (2 * horizontal_spacing, -1.35 * vertical_spacing)
 
-    # Column 3: Tools (organized by agent responsibility)
-    pos["Check Inventory Tool\n(get_all_inventory /\nget_stock_level)"] = (3.25 * horizontal_spacing, 1.65 * vertical_spacing)
-    pos["Supplier Delivery Tool\n(get_supplier_delivery_date)"] = (3.25 * horizontal_spacing, 0.85 * vertical_spacing)
-    pos["Quote History Tool\n(search_quote_history)"] = (3.25 * horizontal_spacing, 0.30 * vertical_spacing)
-    pos["Discount & Pricing Tool\n(paper_supplies + bulk tiers)"] = (3.25 * horizontal_spacing, -0.30 * vertical_spacing)
-    pos["Fulfill Order Tool\n(create_transaction:\nsales & stock_orders)"] = (3.25 * horizontal_spacing, -0.90 * vertical_spacing)
-    pos["Cash & Report Tool\n(get_cash_balance /\ngenerate_financial_report)"] = (3.25 * horizontal_spacing, -1.65 * vertical_spacing)
+    # Column 3: Starter Code Helper Function Tools (all 7 functions mapped)
+    pos["get_all_inventory\n(Full Stock Snapshot)"] = (3.25 * horizontal_spacing, 2.1 * vertical_spacing)
+    pos["get_stock_level\n(Item Stock Check)"] = (3.25 * horizontal_spacing, 1.4 * vertical_spacing)
+    pos["get_supplier_delivery_date\n(Supplier Lead Time)"] = (3.25 * horizontal_spacing, 0.7 * vertical_spacing)
+
+    pos["search_quote_history\n(Historical Quotes & Pricing)"] = (3.25 * horizontal_spacing, 0.0)
+
+    pos["create_transaction\n(Record Sales & Stock Orders)"] = (3.25 * horizontal_spacing, -0.7 * vertical_spacing)
+    pos["get_cash_balance\n(Check Available Cash)"] = (3.25 * horizontal_spacing, -1.4 * vertical_spacing)
+    pos["generate_financial_report\n(Assets & Best-Sellers Report)"] = (3.25 * horizontal_spacing, -2.1 * vertical_spacing)
 
     # Column 4: Data Component
     pos["DB\n(SQLite)"] = (4.55 * horizontal_spacing, 0)
@@ -154,23 +157,24 @@ def beavers_choice_solution():
         # User Interface
         "Customer Inquiry",
 
-        # Agents
+        # Agents (4 total <= 5 limit)
         "Orchestrator Agent",
         "Inventory Agent",
         "Quoting Agent",
         "Transaction Agent",
 
-        # Inventory Tools
-        "Check Inventory Tool\n(get_all_inventory /\nget_stock_level)",
-        "Supplier Delivery Tool\n(get_supplier_delivery_date)",
+        # Inventory Agent Tools (Starter Code Helper Functions)
+        "get_all_inventory\n(Full Stock Snapshot)",
+        "get_stock_level\n(Item Stock Check)",
+        "get_supplier_delivery_date\n(Supplier Lead Time)",
 
-        # Quoting Tools
-        "Quote History Tool\n(search_quote_history)",
-        "Discount & Pricing Tool\n(paper_supplies + bulk tiers)",
+        # Quoting Agent Tools (Starter Code Helper Functions)
+        "search_quote_history\n(Historical Quotes & Pricing)",
 
-        # Transaction / Financial Tools
-        "Fulfill Order Tool\n(create_transaction:\nsales & stock_orders)",
-        "Cash & Report Tool\n(get_cash_balance /\ngenerate_financial_report)",
+        # Transaction Agent Tools (Starter Code Helper Functions)
+        "create_transaction\n(Record Sales & Stock Orders)",
+        "get_cash_balance\n(Check Available Cash)",
+        "generate_financial_report\n(Assets & Best-Sellers Report)",
 
         # Data Component
         "DB\n(SQLite)"
@@ -189,32 +193,38 @@ def beavers_choice_solution():
         ("Orchestrator Agent", "Transaction Agent"),
         ("Transaction Agent", "Orchestrator Agent"),
 
-        # Inventory Agent <-> Tools
-        ("Inventory Agent", "Check Inventory Tool\n(get_all_inventory /\nget_stock_level)"),
-        ("Check Inventory Tool\n(get_all_inventory /\nget_stock_level)", "Inventory Agent"),
-        ("Inventory Agent", "Supplier Delivery Tool\n(get_supplier_delivery_date)"),
-        ("Supplier Delivery Tool\n(get_supplier_delivery_date)", "Inventory Agent"),
+        # Inventory Agent <-> Starter Helper Tools
+        ("Inventory Agent", "get_all_inventory\n(Full Stock Snapshot)"),
+        ("get_all_inventory\n(Full Stock Snapshot)", "Inventory Agent"),
+        ("Inventory Agent", "get_stock_level\n(Item Stock Check)"),
+        ("get_stock_level\n(Item Stock Check)", "Inventory Agent"),
+        ("Inventory Agent", "get_supplier_delivery_date\n(Supplier Lead Time)"),
+        ("get_supplier_delivery_date\n(Supplier Lead Time)", "Inventory Agent"),
 
-        # Quoting Agent <-> Tools
-        ("Quoting Agent", "Quote History Tool\n(search_quote_history)"),
-        ("Quote History Tool\n(search_quote_history)", "Quoting Agent"),
-        ("Quoting Agent", "Discount & Pricing Tool\n(paper_supplies + bulk tiers)"),
-        ("Discount & Pricing Tool\n(paper_supplies + bulk tiers)", "Quoting Agent"),
+        # Quoting Agent <-> Starter Helper Tools
+        ("Quoting Agent", "search_quote_history\n(Historical Quotes & Pricing)"),
+        ("search_quote_history\n(Historical Quotes & Pricing)", "Quoting Agent"),
 
-        # Transaction Agent <-> Tools
-        ("Transaction Agent", "Fulfill Order Tool\n(create_transaction:\nsales & stock_orders)"),
-        ("Fulfill Order Tool\n(create_transaction:\nsales & stock_orders)", "Transaction Agent"),
-        ("Transaction Agent", "Cash & Report Tool\n(get_cash_balance /\ngenerate_financial_report)"),
-        ("Cash & Report Tool\n(get_cash_balance /\ngenerate_financial_report)", "Transaction Agent"),
+        # Transaction Agent <-> Starter Helper Tools
+        ("Transaction Agent", "create_transaction\n(Record Sales & Stock Orders)"),
+        ("create_transaction\n(Record Sales & Stock Orders)", "Transaction Agent"),
+        ("Transaction Agent", "get_cash_balance\n(Check Available Cash)"),
+        ("get_cash_balance\n(Check Available Cash)", "Transaction Agent"),
+        ("Transaction Agent", "generate_financial_report\n(Assets & Best-Sellers Report)"),
+        ("generate_financial_report\n(Assets & Best-Sellers Report)", "Transaction Agent"),
 
         # Tools <-> SQLite Database
-        ("Check Inventory Tool\n(get_all_inventory /\nget_stock_level)", "DB\n(SQLite)"),
-        ("DB\n(SQLite)", "Check Inventory Tool\n(get_all_inventory /\nget_stock_level)"),
-        ("Quote History Tool\n(search_quote_history)", "DB\n(SQLite)"),
-        ("DB\n(SQLite)", "Quote History Tool\n(search_quote_history)"),
-        ("Fulfill Order Tool\n(create_transaction:\nsales & stock_orders)", "DB\n(SQLite)"),
-        ("Cash & Report Tool\n(get_cash_balance /\ngenerate_financial_report)", "DB\n(SQLite)"),
-        ("DB\n(SQLite)", "Cash & Report Tool\n(get_cash_balance /\ngenerate_financial_report)"),
+        ("get_all_inventory\n(Full Stock Snapshot)", "DB\n(SQLite)"),
+        ("DB\n(SQLite)", "get_all_inventory\n(Full Stock Snapshot)"),
+        ("get_stock_level\n(Item Stock Check)", "DB\n(SQLite)"),
+        ("DB\n(SQLite)", "get_stock_level\n(Item Stock Check)"),
+        ("search_quote_history\n(Historical Quotes & Pricing)", "DB\n(SQLite)"),
+        ("DB\n(SQLite)", "search_quote_history\n(Historical Quotes & Pricing)"),
+        ("create_transaction\n(Record Sales & Stock Orders)", "DB\n(SQLite)"),
+        ("get_cash_balance\n(Check Available Cash)", "DB\n(SQLite)"),
+        ("DB\n(SQLite)", "get_cash_balance\n(Check Available Cash)"),
+        ("generate_financial_report\n(Assets & Best-Sellers Report)", "DB\n(SQLite)"),
+        ("DB\n(SQLite)", "generate_financial_report\n(Assets & Best-Sellers Report)"),
     ]
 
     node_types = {
@@ -223,12 +233,13 @@ def beavers_choice_solution():
         "Inventory Agent": "agent",
         "Quoting Agent": "agent",
         "Transaction Agent": "agent",
-        "Check Inventory Tool\n(get_all_inventory /\nget_stock_level)": "tool",
-        "Supplier Delivery Tool\n(get_supplier_delivery_date)": "tool",
-        "Quote History Tool\n(search_quote_history)": "tool",
-        "Discount & Pricing Tool\n(paper_supplies + bulk tiers)": "tool",
-        "Fulfill Order Tool\n(create_transaction:\nsales & stock_orders)": "tool",
-        "Cash & Report Tool\n(get_cash_balance /\ngenerate_financial_report)": "tool",
+        "get_all_inventory\n(Full Stock Snapshot)": "tool",
+        "get_stock_level\n(Item Stock Check)": "tool",
+        "get_supplier_delivery_date\n(Supplier Lead Time)": "tool",
+        "search_quote_history\n(Historical Quotes & Pricing)": "tool",
+        "create_transaction\n(Record Sales & Stock Orders)": "tool",
+        "get_cash_balance\n(Check Available Cash)": "tool",
+        "generate_financial_report\n(Assets & Best-Sellers Report)": "tool",
         "DB\n(SQLite)": "data"
     }
 
