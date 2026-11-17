@@ -1,0 +1,335 @@
+request_id,request_date,cash_balance,inventory_value,response
+1,2025-04-01,45107.2,4890.3,"Thank you for your request! Here is your order confirmation for the supplies needed for the ceremony:
+
+1. **Colored Paper**: 
+   - Quantity: 100 sheets 
+   - Unit Price: $0.10 
+   - Discount Applied: 5% 
+   - Total: $9.50
+
+2. **A4 Glossy Paper**: 
+   - Quantity: 200 sheets 
+   - Unit Price: $0.20 
+   - Discount Applied: 5% 
+   - Total: $38.00
+
+---
+
+**Total Amount Due:** $47.50  
+**Delivery Date:** April 15, 2025  
+
+Please note that the heavy cardstock (white) is currently out of stock and could not be fulfilled for this order."
+2,2025-04-03,45093.95,4890.3,"Thank you for your order! We have successfully processed your request for the following items:
+
+1. **Party Streamers**
+   - Quantity: 300
+   - Unit Price: $0.05
+   - Discounted Total: $14.25
+
+2. **Colorful Poster Paper**
+   - Quantity: 500
+   - Unit Price: $0.25
+   - Discounted Total: $112.50
+
+**Total Amount: $126.75**
+
+Your order will be delivered by April 15, 2025. 
+
+Unfortunately, we are unable to fulfill the order for balloons as they are not carried in our catalog. If you have any further questions or requests, feel free to reach out!"
+3,2025-04-04,45023.8,4883.45,"Dear Customer,
+
+Thank you for your order. We are pleased to confirm the following:
+
+**Order Summary:**
+1. **A4 paper**: 10,000 sheets, Unit Price: $0.05, Bulk Discount Applied: 15%, Total: $425.00, Estimated Delivery Date: April 15, 2025.
+2. **Standard copy paper**: 500 reams, Unit Price: $0.04, Bulk Discount Applied: 10%, Total: $18.00, Estimated Delivery Date: April 15, 2025.
+
+**Total Order Amount**: $443.00
+
+Thank you for choosing Beaver's Choice Paper Company! If you have any further questions, feel free to reach out.
+
+Best regards,
+Beaver's Choice Paper Company"
+4,2025-04-05,45068.35,4831.4,"Dear Customer,
+
+Thank you for your order request!
+
+**Itemized Quote:**
+
+- **High-Quality Recycled Cardstock:** 500 sheets
+  - Unit Price: $0.15
+  - Discount Applied: 10%
+  - Total: $67.50
+
+**Order Confirmation:**
+- Delivery Date: April 15, 2025
+
+Unfortunately, we are unable to fulfill the order for A4 size printer paper due to insufficient stock.
+
+Thank you for your understanding.
+
+Best regards,
+Beaver's Choice Paper Company"
+5,2025-04-05,45126.1,4766.4,"Dear Customer,
+
+Thank you for your order! We are pleased to confirm the following items:
+
+1. **Colored paper**
+   - Quantity: 500 sheets
+   - Unit Price: $0.1
+   - Total (after discount): $45.00
+
+2. **Cardstock**
+   - Quantity: 300 sheets
+   - Unit Price: $0.15
+   - Total (after discount): $42.75
+
+Your total order amount is **$87.75**. 
+
+Both items are scheduled for delivery by **April 15, 2025**. 
+
+Unfortunately, we are unable to fulfill the request for **decorative adhesive tape (washi tape)** at this time due to insufficient stock. 
+
+Thank you for choosing Beaver's Choice Paper Company! If you have any further questions or need assistance, feel free to reach out.
+
+Best regards,
+Beaver's Choice Paper Company"
+6,2025-04-06,45120.5,4766.4,"Order Confirmation: 
+
+1. **White Printer Paper**: 
+   - **Quantity**: 300 sheets 
+   - **Unit Price**: $0.04 
+   - **Bulk Discount**: 5% 
+   - **Total**: $11.40 
+
+2. **Colorful Construction Paper**: 
+   - **Quantity**: 500 sheets 
+   - **Unit Price**: $0.07 
+   - **Bulk Discount**: 10% 
+   - **Total**: $31.50 
+
+3. **Cardstock in Various Colors**: 
+   - **Quantity**: 200 sheets 
+   - **Unit Price**: $0.15 
+   - **Bulk Discount**: 5% 
+   - **Total**: $28.50 
+
+**Delivery Date**: April 15, 2025
+
+The order has been successfully placed and will be delivered by your requested date."
+7,2025-04-07,45413.5,4418.400000000001,"Order Confirmation:
+
+Thank you for your order!
+
+Here are the details of the items you have ordered:
+
+1. Heavyweight Cardstock:
+   - Quantity: 200 sheets
+   - Unit Price: $0.30
+   - Discount Applied: 5%
+   - Total: $57.00
+
+2. Matte A3 Paper:
+   - Quantity: 1000 sheets
+   - Unit Price: $0.18
+   - Discount Applied: 15%
+   - Total: $153.00
+
+3. Glossy A4 Paper:
+   - Quantity: 500 sheets
+   - Unit Price: $0.20
+   - Discount Applied: 10%
+   - Total: $90.00
+
+4. Poster Boards (24"" x 36""):
+   - Quantity: 300 sheets
+   - Unit Price: $1.00
+   - Discount Applied: 5%
+   - Total: $285.00
+
+**Total Amount Due: $585.00**
+
+Your order will be delivered by April 15, 2025.
+
+Thank you for choosing Beaver's Choice Paper Company!"
+8,2025-04-07,45315.0,4413.900000000001,"Your order has been successfully placed and will be delivered by April 15, 2025. Here is the itemized quote:
+
+1. Glossy paper: 500 sheets, unit price: $0.20, discount: 10%, discounted total: $90.00
+2. Matte paper: 1000 sheets, unit price: $0.18, discount: 15%, discounted total: $153.00
+3. Colored paper: 2000 sheets, unit price: $0.10, discount: 15%, discounted total: $170.00
+4. Recycled paper: 3000 sheets, unit price: $0.08, discount: 15%, discounted total: $204.00
+
+Total Amount: $617.00."
+9,2025-04-07,45294.0,4433.900000000001,"Dear Customer,
+
+Thank you for your order request. We are pleased to confirm the fulfillment of the following items:
+
+1. **Glossy paper**  
+   - Quantity: 100 sheets  
+   - Unit Price: $0.20  
+   - Discounted Total: $19.00  
+
+2. **100% recycled kraft paper envelopes**  
+   - Quantity: 50 packets  
+   - Unit Price: $0.05  
+   - Discounted Total: $2.50  
+
+**Total Amount:** $21.50  
+**Delivery Date:** April 10, 2025
+
+Unfortunately, we were unable to fulfill your request for A4 white printer paper due to insufficient stock. We expect to have it restocked after your requested deadline.
+
+We appreciate your understanding and look forward to serving you again soon!
+
+Best regards,
+Beaver's Choice Paper Company."
+13,2025-04-08,45294.0,4433.900000000001,"We regret to inform you that we cannot fulfill your order for A4 printing paper and cardstock. Both items are currently out of stock, and our next supplier delivery will not arrive until April 12, 2025, which is after your requested delivery date of April 10, 2025."
+12,2025-04-08,45290.4,4433.900000000001,"Your order has been successfully placed! Here is the itemized quote for your supplies:
+
+1. **Paper Napkins**: 100 sheets
+   - Unit Price: $0.02
+   - Discount Percent: 5%
+   - Discounted Total: $1.90
+
+2. **Colorful Cardstock**: 200 sheets
+   - Unit Price: $0.15
+   - Discount Percent: 5%
+   - Discounted Total: $28.50
+
+3. **Standard Printer Paper**: 500 sheets
+   - Unit Price: $0.04
+   - Discount Percent: 10%
+   - Discounted Total: $18.00
+
+**Total Amount Due**: $48.40
+**Delivery Date**: April 15, 2025
+
+Thank you for choosing Beaver's Choice Paper Company!"
+10,2025-04-08,45298.15,4413.900000000001,"Order Confirmation:
+
+Thank you for your order! Here are the details:
+
+1. Glossy paper:
+   - Quantity: 500
+   - Unit Price: $0.20
+   - Total (after 10% discount): $90.00
+
+2. Cardstock:
+   - Quantity: 300
+   - Unit Price: $0.15
+   - Total (after 5% discount): $42.75
+
+Total Amount: $132.75
+
+Your supplies will be delivered by April 15, 2025."
+11,2025-04-08,45288.15,4413.900000000001,"Thank you for your order of 500 sheets of A3 glossy paper. 
+
+**Itemized Quote:**
+- **Item:** Glossy paper 
+- **Quantity:** 500 sheets 
+- **Unit Price:** $0.20 
+- **Discount Applied:** 10% 
+- **Total Price:** $90.00 
+
+**Delivery Date:** April 15, 2025.
+
+Please note that we are currently out of stock for the A4 matte paper, and therefore, it could not be included in your order."
+14,2025-04-09,45280.65,4413.900000000001,"Dear Customer,
+
+Thank you for your order request for high-quality paper supplies for your upcoming performance. We regret to inform you that we can only fulfill part of your order due to insufficient stock of certain items. Below is a summary of your order:
+
+**Fulfilled Item:**
+- **Cardstock**: 500 sheets
+  - **Unit Price**: $0.15
+  - **Discount Applied**: 10%
+  - **Final Total**: $67.50
+  - **Delivery Deadline**: April 15, 2025
+
+Unfortunately, we are unable to fulfill the following items:
+- **A4 paper**: We currently have only 135 sheets available, while you requested 5,000 sheets, and the supplier's restock arrives after your requested delivery date.
+- **Poster paper**: We do not have any in stock, and the supplier's restock also arrives after your requested delivery date.
+
+We apologize for any inconvenience this may cause. If you would be interested in adjusting your order or exploring other products, please let us know.
+
+Best regards,
+Beaver's Choice Paper Company"
+15,2025-04-12,45280.65,4413.900000000001,"Dear Customer,
+
+Thank you for your order request. Unfortunately, we are unable to fulfill your order due to insufficient stock for the following items, and the delivery timelines provided by our suppliers do not meet your deadline:
+
+1. A4 white paper: We currently have 135 sheets in stock, and the supplier delivery for the 10,000 sheets you requested will not arrive until April 19, 2025.
+2. A3 colored paper: We currently have 143 sheets in stock, and the supplier delivery for the 5,000 sheets you requested will also arrive after your deadline on April 19, 2025.
+3. Cardboard for signage: We have no stock available, and the supplier delivery for the 500 units will arrive after the requested deadline on April 16, 2025.
+
+We sincerely apologize for any inconvenience this may cause. Please let us know if you would like to modify your order or if there is anything else we can assist you with.
+
+Best regards,
+Beaver's Choice Paper Company"
+16,2025-04-13,45375.65,4313.900000000001,"Thank you for your order! We have successfully fulfilled part of your request. Here are the details:
+
+**Itemized Quote:**
+- **Item:** Large poster paper (24x36 inches)
+  - **Quantity:** 100 sheets
+  - **Unit Price:** $1.00
+  - **Bulk Discount Applied:** 5%
+  - **Discounted Total:** $95.00
+
+**Delivery Date:** 2025-04-15
+
+Unfortunately, we could not fulfill your requests for A4 printer paper and colorful construction paper due to insufficient stock and supplier restock arriving after the requested deadline. If you need assistance with alternatives or further orders, please let us know!"
+17,2025-04-14,45420.65,4263.900000000001,"Thank you for your order with Beaver's Choice Paper Company. Unfortunately, we are unable to fulfill your entire order due to insufficient stock for the following items:
+
+- A4 White Printer Paper: Insufficient stock
+- A3 Colored Paper: Insufficient stock
+- Table Napkins: Insufficient stock
+- Paper Cups: Insufficient stock
+
+However, we have successfully processed an order for:
+- **Paper Plates**: 500 units at $0.10 each which totals to $45.00, with a delivery date of April 15, 2025.
+
+Please let us know if there's anything else we can assist you with!"
+18,2025-04-14,45420.65,4263.900000000001,"Dear Customer,
+
+Thank you for your order request for the upcoming ceremony. Unfortunately, we are unable to fulfill your entire order due to insufficient stock of the requested items:
+
+1. **High-quality white cardstock**: We currently have 148 sheets in stock, but you requested 500 sheets. The supplier restock will arrive after the needed deadline on April 18, 2025.
+
+2. **Standard printing paper**: We currently have 0 sheets in stock, and the supplier restock will also not arrive until April 18, 2025, which is after your required delivery date.
+
+3. **Colored paper**: We have 143 sheets in stock, but you requested 200 sheets. Again, the supplier restock for the needed quantity will arrive after your requested delivery date.
+
+We sincerely apologize for the inconvenience and recommend you consider adjusting your order quantities or timelines. Please let us know how you would like to proceed.
+
+Best regards,
+Beaver's Choice Paper Company"
+19,2025-04-15,45398.15,4263.900000000001,"Dear Customer,
+
+Thank you for your order request. We have successfully fulfilled your order for the following item:
+
+- **Cardstock:** 1000 sheets at $0.15 per sheet (after a 15% discount). 
+  - **Total:** $127.50
+
+Your cardstock order will be delivered by April 20, 2025.
+
+Unfortunately, we could not fulfill the requests for A4 glossy paper and A3 matte paper due to insufficient stock. Restock for these items arrives after your requested deadline.
+
+We appreciate your understanding and are here to help with any further questions.
+
+Best Regards,
+Beaver's Choice Paper Company"
+20,2025-04-17,45210.65,4263.900000000001,"Thank you for your order! Here is the itemized quote and order confirmation:
+
+**Items Ordered:**
+1. Flyers:
+   - Quantity: 5000
+   - Unit Price: $0.15
+   - Discounted Total: $637.50
+
+2. Poster paper:
+   - Quantity: 2000
+   - Unit Price: $0.25
+   - Discounted Total: $425.00
+
+**Delivery Date:** May 15, 2025
+
+Your order has been successfully processed! If you have any further questions or requests, feel free to reach out."
