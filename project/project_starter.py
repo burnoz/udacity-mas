@@ -10,7 +10,7 @@ from typing import Dict, List, Union
 from sqlalchemy import create_engine, Engine
 
 # Create an SQLite database
-db_engine = create_engine("sqlite:///beaver_difflin.db")
+db_engine = create_engine("sqlite:///beaver.db")
 
 # List containing the different kinds of papers 
 paper_supplies = [
@@ -603,8 +603,8 @@ if os.getcwd() != PROJECT_DIR:
 dotenv.load_dotenv(dotenv_path=os.path.join(PROJECT_DIR, ".env"))
 dotenv.load_dotenv()
 
-openai_api_key = os.getenv("UDACITY_OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
-openai_base_url = os.getenv("OPENAI_BASE_URL", "https://openai.vocareum.com/v1")
+openai_api_key = os.getenv("UDACITY_OPENAI_API_KEY")
+openai_base_url = os.getenv("OPENAI_BASE_URL")
 
 
 class _RequestsChatCompletions:
@@ -612,7 +612,7 @@ class _RequestsChatCompletions:
 
     def __init__(self, api_key: str, base_url: str):
         self.api_key = api_key
-        self.base_url = (base_url or "https://openai.vocareum.com/v1").rstrip("/")
+        self.base_url = (base_url).rstrip("/")
 
     def create(self, **kwargs):
         url = f"{self.base_url}/chat/completions"

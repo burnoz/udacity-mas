@@ -1,70 +1,34 @@
-# Beaver's Choice Paper Company — Multi-Agent System Reflective Report
+# Reflection
 
-## 1. Executive Summary
+### System Architecture
 
-This report documents the design, implementation, and evaluation of a modular multi-agent system built for **Beaver's Choice Paper Company** using the **`smolagents`** framework (`ToolCallingAgent` and `OpenAIServerModel`) backed by an **SQLite** database (`munder_difflin.db`).
+Due to the project specifications, this MAS follows an Orchestrator pattern. After reading through the requirements and defining the system's core responsibilities, I decided to implement the following agents:
 
-The system streamlines core business operations—answering inventory inquiries, managing supplier reorders, generating competitive bulk-discounted quotes informed by historical data, and recording validated sales and restock transactions—while strictly adhering to the project constraint of **at most 5 agents** (implemented with **4 agents**: 1 Orchestrator Agent and 3 specialized Worker Agents) and utilizing **all 7 starter helper functions**.
+- OrchestratorAgent: handles customes requests and delegates tasks to the worker agents to compile a final response to the customer.
+- InventoryAgent: checks the warehouse inventory and supplier delivery dates to determine if requested items can be fulfilled by the customer's deadline.
+- QuotingAgent: generates itemized quotes with tiered bulk discounts based on historical quote data and current inventory status.
+- TransactionAgent: processes financial transactions, including supplier restocks and customer sales, and generates financial reports.
 
----
+The system was built with the following flow in mind:
 
-## 2. Comprehensive Explanation of the Multi-Agent System
+1. Customer Inquiry Input: Incoming text-based customer requests (along with the request date and requested delivery deadline) are received by the Orchestrator Agent.
+2. Step 1 - Inventory & Delivery Verification (InventoryAgent): The Orchestrator delegates stock verification and supplier delivery timeline estimation to the Inventory Agent, which queries the SQLite database using get_all_inventory, get_stock_level and get_supplier_delivery_date.
+3. Step 2 - Quote Generation & Bulk Discounting (QuotingAgent): Using the verified inventory status, the Orchestrator delegates pricing to the Quoting Agent, which searches historical quotes via search_quote_history and computes itemized pricing with strategic tiered bulk discounts.
+4. Step 3 - Order Fulfillment & Financial Reporting (TransactionAgent): For all fulfillable items that meet the customer's delivery deadline, the Orchestrator instructs the Transaction Agent to check cash reserves (get_cash_balance), execute necessary supplier restock (stock_orders) and customer sale (sales) transactions (create_transaction) and produce an updated financial health snapshot (generate_financial_report).
+5. Step 4 - Customer Response Synthesis (OrchestratorAgent): Finally, the Orchestrator synthesizes the outputs from all three worker agents into a clear, transparent customer response detailing fulfilled items, itemized prices and bulk discounts applied, delivery dates and explicit explanations for any unfulfilled or rejected items.
 
-### 2.1 System Architecture & Agent Workflow Diagram
+The tools were creted by wrapping the provided functions in the starting project template:
+- get_all_inventory(as_of_date) -> check_all_inventory
+- get_stock_level(item_name, as_of_date) -> check_item_stock & record_order_transaction
+- get_supplier_delivery_date(input_date_str, quantity) -> check_supplier_delivery, check_item_stock, & record_order_transaction
+- search_quote_history(search_terms, limit) -> get_quote_history
+- create_transaction(item_name, transaction_type, quantity, price, date) -> record_order_transaction
+- get_cash_balance(as_of_date) -> check_company_cash & record_order_transaction
+- generate_financial_report(as_of_date) -> get_company_financial_report
 
-The multi-agent architecture follows a centralized hub-and-spoke orchestration pattern, depicted in `workflow_diagram.png` (generated via `diagram.py`):
+![System Workflow](workflow_diagram.png)
 
-![Beaver's Choice Paper Company Multi-Agent System Workflow](workflow_diagram.png)
-
-1. **Customer Inquiry Input**: Incoming text-based customer requests (along with the request date and requested delivery deadline) are received by the **Orchestrator Agent**.
-2. **Step 1 — Inventory & Delivery Verification (`InventoryAgent`)**: The Orchestrator delegates stock verification and supplier delivery timeline estimation to the **Inventory Agent**, which queries the SQLite database using `get_all_inventory`, `get_stock_level`, and `get_supplier_delivery_date`.
-3. **Step 2 — Quote Generation & Bulk Discounting (`QuotingAgent`)**: Using the verified inventory status, the Orchestrator delegates pricing to the **Quoting Agent**, which searches historical quotes via `search_quote_history` and computes itemized pricing with strategic tiered bulk discounts.
-4. **Step 3 — Order Fulfillment & Financial Reporting (`TransactionAgent`)**: For all fulfillable items that meet the customer's delivery deadline, the Orchestrator instructs the **Transaction Agent** to check cash reserves (`get_cash_balance`), execute necessary supplier restock (`stock_orders`) and customer sale (`sales`) transactions (`create_transaction`), and produce an updated financial health snapshot (`generate_financial_report`).
-5. **Step 4 — Customer Response Synthesis (`OrchestratorAgent`)**: Finally, the Orchestrator synthesizes the outputs from all three worker agents into a clear, transparent customer response detailing fulfilled items, itemized prices and bulk discounts applied, delivery dates, and explicit explanations for any unfulfilled or rejected items.
-
----
-
-### 2.2 Agent Roles and Responsibilities (4 Agents Total)
-
-| Agent Class | Role in System | Assigned `@tool` Functions | Underlying Starter Helper Functions Used |
-| :--- | :--- | :--- | :--- |
-| **`OrchestratorAgent`** | Central coordinator for **Beaver's Choice Paper Company**. Parses customer requests, coordinates the sequential handoff across the 3 worker agents (`InventoryAgent` $\rightarrow$ `QuotingAgent` $\rightarrow$ `TransactionAgent`), and compiles the final customer-facing response. | Coordinates worker agents directly (`check_inventory`, `generate_quote`, `process_transaction`) | All 7 starter helpers via worker delegation |
-| **`InventoryAgent`** | Inventory & supply-chain specialist. Resolves customer item descriptions to canonical catalog names, checks warehouse stock as of the request date, and evaluates whether out-of-stock quantities can be restocked by the customer's delivery deadline. | `check_all_inventory`, `check_item_stock`, `check_supplier_delivery` | `get_all_inventory`, `get_stock_level`, `get_supplier_delivery_date` |
-| **`QuotingAgent`** | Pricing & quotation specialist. Retrieves relevant historical quotes for similar customer profiles/events and calculates competitive itemized quotes with tiered volume discounts. | `get_quote_history`, `calculate_bulk_quote` | `search_quote_history` (+ `paper_supplies` catalog pricing) |
-| **`TransactionAgent`** | Financial & order fulfillment specialist. Validates company cash balance, records supplier restock orders (`stock_orders`) when warehouse stock is insufficient but supplier delivery meets the deadline, records customer sales (`sales`), and generates full financial reports. | `check_company_cash`, `record_order_transaction`, `get_company_financial_report` | `get_cash_balance`, `create_transaction`, `generate_financial_report` (plus internal validation via `get_stock_level` and `get_supplier_delivery_date`) |
-
----
-
-### 2.3 Key Design Decisions & Business Logic
-
-1. **Complete Utilization of Starter Helper Functions**:
-   Every single helper function provided in `project_starter.py` is wrapped in a `smolagents` `@tool` and actively invoked during request processing:
-   - `get_all_inventory(as_of_date)` $\rightarrow$ `check_all_inventory`
-   - `get_stock_level(item_name, as_of_date)` $\rightarrow$ `check_item_stock` & `record_order_transaction`
-   - `get_supplier_delivery_date(input_date_str, quantity)` $\rightarrow$ `check_supplier_delivery`, `check_item_stock`, & `record_order_transaction`
-   - `search_quote_history(search_terms, limit)` $\rightarrow$ `get_quote_history`
-   - `create_transaction(item_name, transaction_type, quantity, price, date)` $\rightarrow$ `record_order_transaction`
-   - `get_cash_balance(as_of_date)` $\rightarrow$ `check_company_cash` & `record_order_transaction`
-   - `generate_financial_report(as_of_date)` $\rightarrow$ `get_company_financial_report`
-
-2. **Natural-Language Catalog Synonym Resolution (`resolve_catalog_item`)**:
-   Customers frequently refer to products using informal or composite names (e.g., `"A4 glossy paper"`, `"heavy cardstock (white)"`, `"party streamers"`, `"washi tape"`, `"poster board"`). Because SQLite queries require exact canonical `item_name` matches from `paper_supplies`, we implemented a deterministic synonym-and-token resolver (`CATALOG_SYNONYMS` + `resolve_catalog_item`) that maps informal descriptions to exact catalog entries (e.g., `"party streamers"` $\rightarrow$ `"Crepe paper"`, `"poster board"` $\rightarrow$ `"Large poster paper (24x36 inches)"`) while accurately rejecting non-catalog items (such as `"balloons"`, `"A3 paper"`, and `"tickets"`).
-
-3. **Strategic Tiered Bulk Discounting (`calculate_bulk_discount_rate`)**:
-   To encourage larger orders while maintaining transparent pricing, the `QuotingAgent` applies a deterministic 3-tier volume discount schedule based on item quantity:
-   - **1 to 99 units**: `0%` discount (standard catalog `unit_price`)
-   - **100 to 499 units**: `5%` bulk discount
-   - **500 to 999 units**: `10%` bulk discount
-   - **1,000+ units**: `15%` bulk discount
-
-4. **Strict Delivery Deadline & Cash Validation**:
-   In `check_item_stock` and `record_order_transaction`, if `current_stock < quantity`, the system computes `missing_qty = quantity - current_stock` and queries `get_supplier_delivery_date(request_date, missing_qty)`.
-   - If `supplier_delivery_date <= requested_delivery_date` and `cash_balance >= restock_cost`, the `TransactionAgent` automatically places a `"stock_orders"` transaction for `missing_qty` followed by a `"sales"` transaction for the full `quantity`.
-   - If `supplier_delivery_date > requested_delivery_date`, the item is **actively rejected** with a clear explanation comparing the supplier arrival date against the customer's deadline.
-
----
-
-## 3. Evaluation Results (`test_results.csv`)
+### Evaluation results
 
 ### 3.1 Quantitative Summary Across All 20 Test Scenarios
 
