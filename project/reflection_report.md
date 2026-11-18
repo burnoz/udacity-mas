@@ -32,7 +32,7 @@ The tools were creted by wrapping the provided functions in the starting project
 
 ### Quantitative Summary
 
-The multi-agent system was evaluated against all 20 simulated customer requests in `quote_requests_sample.csv` spanning **April 1, 2025 to April 17, 2025**:
+The multi-agent system was evaluated against all 20 simulated customer requests in quote_requests_sample.csv spanning **April 1, 2025 to April 17, 2025**:
 
 | Metric | Initial State (`2025-04-01`) | Final State (`2025-04-17`) | Net Change / Outcome |
 | :--- | :--- | :--- | :--- |
@@ -70,50 +70,21 @@ The multi-agent system was evaluated against all 20 simulated customer requests 
 | **19** | `2025-04-15` | Exhibition (City Hall Clerk) | **Partial Fulfillment** | `45,398.15` | `4,263.90` | Fulfilled 1,000 Cardstock (15% off, `\$127.50`); rejected 2,000 Glossy paper and 500 Matte paper (restock misses `2025-04-20` deadline). |
 | **20** | `2025-04-17` | Concert (Restaurant Mgr.) | **Partial Fulfillment** | `45,210.65` | `4,263.90` | Fulfilled 5,000 Flyers (`\$637.50`) + 2,000 Poster paper (`\$425.00`) (`\$1,062.50`) for `2025-05-15`; rejected non-catalog `"10,000 tickets"`. |
 
----
-
 ## Strengths of the Current Implementation
 
-1. **Rigorous Constraint Recognition & Transparent Customer Communication**:
-   The system accurately identifies impossible delivery timelines by comparing `get_supplier_delivery_date(request_date, missing_qty)` against the customer's requested deadline. For example, in **Request #13** (`2025-04-08`, deadline `2025-04-10`), **Request #15** (`2025-04-12`, deadline `2025-04-15`), and **Request #18** (`2025-04-14`, deadline `2025-04-15`), the agents prevented invalid transactions and provided exact stock counts and supplier arrival dates (`2025-04-12`, `2025-04-16`/`2025-04-19`, and `2025-04-18`) to explain why the deadline could not be met.
-2. **Partial Order Accommodation**:
-   Rather than rejecting an entire multi-item request when a single item is unavailable or out of catalog (e.g., `"balloons"` in Request #2, `"A3 paper"` in Request #3, or `"A4 paper"` in Request #9), the system fulfills all feasible items while clearly explaining which items could not be fulfilled. This maximizes customer satisfaction and revenue conversion.
-3. **Resilient Catalog Synonym Resolution**:
-   By combining domain synonym mappings (`ITEM_SYNONYMS`) with substring matching in `resolve_catalog_item`, all three worker agents consistently map varied user phrasing to the exact 44 canonical item names in `paper_supplies`, avoiding SQLite item-name mismatch errors.
-4. **Fast, Deterministic Multi-Agent Execution**:
-   Instructing each `ToolCallingAgent` to batch tool calls in Step 1 and return a structured `final_answer` in Step 2 kept agent reasoning focused, eliminated redundant tool loops, and ensured every single request completed reliably.
+- Accurate Deadline & Stock Validation: The system compares get_supplier_delivery_date against customer deadlines and actively rejects orders that cannot arrive on time (e.g., Requests #13, #15, and #18) with clear explanations.
+- Partial Order Fulfillment: Instead of rejecting an entire multi-item request when one item is unavailable or not in the catalog, the system fulfills all available items and explains which ones were excluded.
+- Catalog Synonym Resolution: resolve_catalog_item maps informal customer descriptions (e.g., "party streamers", "washi tape") to exact catalog names in paper_supplies, preventing database lookup mismatches.
+- Reliable Agent Coordination: Separating inventory, quoting, and transaction tasks across dedicated worker agents keeps tool calls focused and ensures every request completes consistently.
 
----
+## Areas for Improvement
 
-### 3.4 Areas for Improvement Identified During Evaluation
-
-1. **Wholesale Cost vs. Retail List Price on Restocked Items**:
-   In the starter code (`project_starter.py`), `paper_supplies` defines a single `unit_price` per item. When `record_order_transaction` orders missing units from the supplier (`"stock_orders"`), it pays `missing_qty * base_unit_price` (100% of list price), while selling the units to the customer (`"sales"`) at a `5%–15%` bulk discount. When an item is fulfilled entirely via supplier restock (0 initial warehouse stock), the bulk discount slightly reduces net cash on that specific line item (e.g., buying 1,000 Cardstock from the supplier at `\$0.15/unit = \$150.00` and selling with a 15% bulk discount at `\$127.50` in Request #19).
-2. **Unit-of-Measure Normalization (`sheets` vs. `reams` / `packets`)**:
-   In **Request #3**, the customer requested `"500 reams of printer paper"`. The LLM passed `quantity=500` directly to `calculate_bulk_quote` and `record_order_transaction` at the per-sheet catalog price (`\$0.04`), charging `\$18.00` rather than converting `500 reams` into sheets (or applying a ream multiplier).
-3. **LLM Interpretation of Supplier Restock Eligibility When `current_stock == 0`**:
-   In a few scenarios with a longer delivery window (e.g., **Request #5** for 200 Washi tape and **Request #11** for 300 Matte paper), even though `check_item_stock` returned `can_fulfill: True` via supplier restock, the LLM treated `current_stock: 0` conservatively and declined the out-of-stock item in `QuotingAgent`/`TransactionAgent` while fulfilling the in-stock items.
-
----
+- Restock Cost vs. Bulk Discount Margin: paper_supplies uses a single unit_price for both supplier restocks and customer sales, so restocking an out-of-stock item at full price and selling it with a bulk discount (5%–15%) slightly reduces net margin on that item.
+- Unit-of-Measure Conversion: Packaging units like "500 reams" (Request #3) are passed directly as 500 units at the per-sheet price instead of being converted into total sheets.
+- Conservative Handling of Zero-Stock Items: In a few cases (e.g., Requests #5 and #11), the LLM declined items with current_stock: 0 even when supplier restock could have arrived before the customer's deadline.
 
 ## Further Improvements
 
-To evolve the **Beaver's Choice Paper Company** multi-agent system into a production-grade enterprise platform, we recommend the following **three distinct architectural improvements**:
-
-### Improvement 1: Margin-Aware Dynamic Pricing & Wholesale vs. Retail Cost Separation
-- **Problem**: Currently, supplier restock transactions (`"stock_orders"`) are billed at 100% of the catalog `unit_price`, whereas customer sales (`"sales"`) receive up to a `15%` bulk discount. If an item has zero warehouse inventory and must be 100% drop-shipped/restocked from the supplier, applying a 15% discount results in a negative gross margin on that restocked portion.
-- **Proposed Solution**:
-  1. Introduce a wholesale supplier cost ratio (e.g., `wholesale_cost = 0.70 * unit_price`) or pass `in_stock_qty` vs. `restock_qty` directly to the `QuotingAgent`'s `calculate_bulk_quote` tool.
-  2. Make bulk discounts **margin-aware**: apply the full `5% / 10% / 15%` tiered discount to units fulfilled from existing warehouse stock (to incentivize clearing warehouse inventory), and cap the discount on backordered/restocked units so the discounted sale price always maintains at least a `10%` positive net cash margin above supplier restock cost.
-
-### Improvement 2: Unit-of-Measure Normalization & Semantic Catalog Search (RAG)
-- **Problem**: Customers specify quantities in mixed packaging units (`"reams"`, `"boxes"`, `"packets"`, `"rolls"`, `"sheets"`) and use diverse product descriptions. Treating `"500 reams"` as `500` individual units under-bills large commercial orders.
-- **Proposed Solution**:
-  1. Add a deterministic **Unit Conversion Preprocessor** inside the `InventoryAgent` and `QuotingAgent` tools (e.g., `1 ream = 500 sheets`, `1 packet = 25 envelopes`, `1 box = 1,000 units`) that normalizes requested quantities into canonical catalog base units before checking stock or calculating prices.
-  2. Replace keyword-only quote history lookup (`LIKE '%term%'` in `search_quote_history`) with an embedding or `TfidfVectorizer` cosine-similarity index (as demonstrated in Lesson 7 of the course) over both `quotes.csv` and `paper_supplies` to retrieve the most semantically relevant historical quotes for similar job types and event sizes.
-
-### Improvement 3: Structured Pydantic Hand-offs & Dedicated Response Verification (5th Agent)
-- **Problem**: Passing unstructured natural-language summaries between worker agents occasionally causes the downstream agent to misread `can_fulfill: True` when `current_stock == 0` (declining items that could have been restocked in time) or omit rejected non-catalog items from the final summary note (e.g., `"A3 paper"` in Request #3 and `"10,000 tickets"` in Request #20).
-- **Proposed Solution**:
-  1. Utilize the remaining 5th agent slot allowed by the project specification to introduce a **`QualityAssuranceAgent` (or `CustomerCommunicationAgent`)** and enforce **Pydantic schema validation** on inter-agent payloads (`InventoryReport`, `QuoteProposal`, `TransactionReceipt`).
-  2. Have the final verification step deterministically check that every item from the original customer request is accounted for (either in the fulfilled order table or in the explicit rejection section) and that all line-item totals sum to the stated grand total.
+- Margin-Aware Pricing (Wholesale vs. Retail Costs): Separate wholesale supplier costs from retail list prices, or cap bulk discounts on backordered items so restocked orders always maintain a positive profit margin.
+- Unit Normalization & Semantic Search: Add a preprocessing step to convert packaging units (reams, packets, boxes) into base units before pricing, and use vector/TF-IDF similarity search over quotes.csv for better historical quote matching.
+- Structured Hand-offs & QA Agent: Use Pydantic schemas between worker agents or add a 5th QualityAssuranceAgent to verify that every requested item is accounted for and that all totals and restock eligibility flags are followed consistently.
